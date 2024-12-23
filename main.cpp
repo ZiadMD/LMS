@@ -1,8 +1,8 @@
 #include <iostream>
-#include "LibraryMangmentSystem.h"
+#include "LibraryManagementSystem.h"
 
 
-void init_load(LibraryMangmentSystem& lib) {
+void init_load(LibraryManagementSystem& lib) {
     string titles[] = {
             "The Great Gatsby", "To Kill a Mockingbird", "1984", "Pride and Prejudice",
             "The Catcher in the Rye", "Moby-Dick", "The Lord of the Rings", "The Hobbit",
@@ -57,7 +57,7 @@ void check_not_neg(int& number){
 }
 
 int main() {
-    LibraryMangmentSystem library;
+    LibraryManagementSystem library;
 
     init_load(library);
 

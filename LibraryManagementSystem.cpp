@@ -1,6 +1,6 @@
-#include "LibraryMangmentSystem.h"
+#include "LibraryManagementSystem.h"
 
-void LibraryMangmentSystem::selectionSort(const function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)>& comparator){
+void LibraryManagementSystem::selectionSort(const function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)>& comparator){
     if (!head) return;
 
     auto current = head;
@@ -35,7 +35,7 @@ void LibraryMangmentSystem::selectionSort(const function<bool(shared_ptr<BookNod
 
 }
 
-shared_ptr<BookNode> LibraryMangmentSystem::Split(shared_ptr<BookNode> head){
+shared_ptr<BookNode> LibraryManagementSystem::Split(shared_ptr<BookNode> head){
     auto slow = head;
     auto fast = head;
 
@@ -49,7 +49,7 @@ shared_ptr<BookNode> LibraryMangmentSystem::Split(shared_ptr<BookNode> head){
     return temp;
 }
 
-shared_ptr<BookNode> LibraryMangmentSystem::merge(shared_ptr<BookNode> left, shared_ptr<BookNode> right, function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)> comparator){
+shared_ptr<BookNode> LibraryManagementSystem::merge(shared_ptr<BookNode> left, shared_ptr<BookNode> right, function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)> comparator){
     if (!left) return right;
     if (!right) return left;
 
@@ -68,7 +68,7 @@ shared_ptr<BookNode> LibraryMangmentSystem::merge(shared_ptr<BookNode> left, sha
     }
 }
 
-shared_ptr<BookNode> LibraryMangmentSystem::MergeSort(shared_ptr<BookNode> head, function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)> comparator){
+shared_ptr<BookNode> LibraryManagementSystem::MergeSort(shared_ptr<BookNode> head, function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)> comparator){
     if (!head || !head->next) return head;
 
     auto mid = Split(head);
@@ -79,9 +79,9 @@ shared_ptr<BookNode> LibraryMangmentSystem::MergeSort(shared_ptr<BookNode> head,
     return merge(head, mid, comparator);
 }
 
-LibraryMangmentSystem::LibraryMangmentSystem() : head(nullptr), tail(nullptr), length(0){}
+LibraryManagementSystem::LibraryManagementSystem() : head(nullptr), tail(nullptr), length(0){}
 
-void LibraryMangmentSystem::push_front(shared_ptr<BookNode> Book)
+void LibraryManagementSystem::push_front(shared_ptr<BookNode> Book)
 {
     if (!head)
     {
@@ -97,7 +97,7 @@ void LibraryMangmentSystem::push_front(shared_ptr<BookNode> Book)
     length++;
 }
 
-void LibraryMangmentSystem::push_back(shared_ptr<BookNode> Book)
+void LibraryManagementSystem::push_back(shared_ptr<BookNode> Book)
 {
     if (!head)
     {
@@ -112,7 +112,7 @@ void LibraryMangmentSystem::push_back(shared_ptr<BookNode> Book)
     length++;
 }
 
-void LibraryMangmentSystem::insert(shared_ptr<BookNode> Book, int Index) {
+void LibraryManagementSystem::insert(shared_ptr<BookNode> Book, int Index) {
     shared_ptr<BookNode> current;
 
     // Choosing the traversal direction based on the index
@@ -140,7 +140,7 @@ void LibraryMangmentSystem::insert(shared_ptr<BookNode> Book, int Index) {
     length++;
 }
 
-void LibraryMangmentSystem::DeleteBook(int id)
+void LibraryManagementSystem::DeleteBook(int id)
 {
     // If the library is empty, print an error message and do nothing
     if (!head)
@@ -175,7 +175,7 @@ void LibraryMangmentSystem::DeleteBook(int id)
     length--;
 }
 
-shared_ptr<BookNode> LibraryMangmentSystem::searchByID(int id)
+shared_ptr<BookNode> LibraryManagementSystem::searchByID(int id)
 {
     if (!head || !tail)
     {
@@ -201,7 +201,7 @@ shared_ptr<BookNode> LibraryMangmentSystem::searchByID(int id)
     return nullptr; // Book not found
 }
 
-void LibraryMangmentSystem::sort(function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)> comparator, string type){
+void LibraryManagementSystem::sort(function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)> comparator, string type){
     if (type == "selection") selectionSort(comparator);
 
     if (type == "merge"){
@@ -214,7 +214,7 @@ void LibraryMangmentSystem::sort(function<bool(shared_ptr<BookNode>, shared_ptr<
 
 }
 
-void LibraryMangmentSystem::display()
+void LibraryManagementSystem::display()
 {
     if (!head)
     {

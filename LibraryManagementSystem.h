@@ -1,5 +1,5 @@
-#ifndef LMS_LIBRARYMANGMENTSYSTEM_H
-#define LMS_LIBRARYMANGMENTSYSTEM_H
+#ifndef LMS_LIBRARYMANAGEMENTSYSTEM_H
+#define LMS_LIBRARYMANAGEMENTSYSTEM_H
 #include <memory>
 #include <functional>
 #include <iostream>
@@ -8,7 +8,7 @@
 
 #include "BookNode.h"
 
-class LibraryMangmentSystem {
+class LibraryManagementSystem {
 private:
     shared_ptr<BookNode> head, tail;
     int length;
@@ -64,7 +64,7 @@ private:
     shared_ptr<BookNode> MergeSort(shared_ptr<BookNode> head, function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)> comparator);
 
 public:
-    LibraryMangmentSystem();
+    LibraryManagementSystem();
     /**
      * @brief Adds a book to the front of the library.
      *
@@ -132,4 +132,4 @@ public:
 };
 
 
-#endif //LMS_LIBRARYMANGMENTSYSTEM_H
+#endif //LMS_LIBRARYMANAGEMENTSYSTEM_H
