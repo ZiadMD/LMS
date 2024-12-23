@@ -54,7 +54,6 @@ shared_ptr<BookNode> LibraryManagementSystem::merge(shared_ptr<BookNode> left, s
     if (!right) return left;
 
     if (comparator(left, right)){
-
         right->next = merge(left, right->next, comparator);
         if (right->next) right->next->prev = right;
         right->prev = nullptr;
@@ -113,6 +112,12 @@ void LibraryManagementSystem::push_back(shared_ptr<BookNode> Book)
 }
 
 void LibraryManagementSystem::insert(shared_ptr<BookNode> Book, int Index) {
+    if(Index > length) {
+        cout << "Index out of range." << endl;
+        cout << "Pushing the book to the end of the library." << endl;
+        push_back(Book);
+        return;
+    }
     shared_ptr<BookNode> current;
 
     // Choosing the traversal direction based on the index
@@ -120,13 +125,13 @@ void LibraryManagementSystem::insert(shared_ptr<BookNode> Book, int Index) {
     {
         // Traverse from the head
         current = head;
-        for (int i = 0; i < Index; ++i) current = current->next;
+        for (int i = 1; i < Index; ++i) current = current->next;
     }
     else
     {
         // Traverse from the tail
         current = tail;
-        for (int i = length - 1; i > Index; --i) current = current->prev;
+        for (int i = length; i > Index; --i) current = current->prev;
     }
 
     // Update pointers to insert the new node
@@ -140,7 +145,7 @@ void LibraryManagementSystem::insert(shared_ptr<BookNode> Book, int Index) {
     length++;
 }
 
-void LibraryManagementSystem::DeleteBook(int id)
+void LibraryManagementSystem::deleteBook(int id)
 {
     // If the library is empty, print an error message and do nothing
     if (!head)
@@ -223,19 +228,24 @@ void LibraryManagementSystem::display()
     }
 
     int IDMARGIN = head->getIdPadding(),
-            NAMEMARGEN = head->getNamePadding(),
-            AUTHORMARGEN = head->getAuthorPadding(),
-            GENREMARGEN = head->getGenrePadding(),
-            QMARGEN = max(head->getQuantityPadding(), 8);
+        NAMEMARGEN = head->getNamePadding(),
+        AUTHORMARGEN = head->getAuthorPadding(),
+        GENREMARGEN = head->getGenrePadding(),
+        QMARGEN = max(head->getQuantityPadding(), 8)+1;
 
+
+    cout << "+" << string(IDMARGIN+1, '-') << "+"
+                << string(NAMEMARGEN+1, '-') << "+"
+                << string(AUTHORMARGEN+1, '-') << "+"
+                << string(GENREMARGEN+1, '-') << "+"
+                << string(QMARGEN, '-') << "+\n";
     // Print table header
-    cout << string(IDMARGIN + NAMEMARGEN + AUTHORMARGEN + GENREMARGEN + QMARGEN + 10, '=') << endl;
     cout << left << "|" << setw(IDMARGIN) << "ID"
          << " |" << setw(NAMEMARGEN) << "Book Name"
          << " |" << setw(AUTHORMARGEN) << "Author Name"
          << " |" << setw(GENREMARGEN) << "Genre"
          << " |" << setw(QMARGEN) << "Quantity" << "|\n";
-    cout << string(IDMARGIN + NAMEMARGEN + AUTHORMARGEN + GENREMARGEN + QMARGEN + 10, '=') << endl;
+    cout << "+" << string(IDMARGIN+1, '-') << "+" << string(NAMEMARGEN+1, '-') << "+" << string(AUTHORMARGEN+1, '-') << "+" << string(GENREMARGEN+1, '-') << "+" << string(QMARGEN, '-') << "+\n";
 
     // Traverse the list and print book details
     auto temp = head;
@@ -248,7 +258,7 @@ void LibraryManagementSystem::display()
              << " |" << setw(QMARGEN) << temp->getQuantity() << "|\n";
         temp = temp->next;
     }
-    cout << string(IDMARGIN + NAMEMARGEN + AUTHORMARGEN + GENREMARGEN + QMARGEN + 10, '=') << endl;
+    cout << "+" << string(IDMARGIN+1, '-') << "+" << string(NAMEMARGEN+1, '-') << "+" << string(AUTHORMARGEN+1, '-') << "+" << string(GENREMARGEN+1, '-') << "+" << string(QMARGEN, '-') << "+\n";
 }
 
 

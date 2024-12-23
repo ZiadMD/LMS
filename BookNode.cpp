@@ -14,7 +14,6 @@ void BookNode::updateMaxLengths() {
     maxIdLength = max(maxIdLength, calculateLength(id));
     maxQuantityLength = max(maxQuantityLength, calculateLength(quantity));
 }
-
 // Simplified length calculation
 int BookNode::calculateLength(const string &field) const {
     return static_cast<int>(field.length());
@@ -48,9 +47,9 @@ BookNode::BookNode() : next(nullptr), prev(nullptr) {
 }
 
 // Getters
-const string &BookNode::getBookName() const { return bookName; }
-const string &BookNode::getAuthorName() const { return authorName; }
-const string &BookNode::getBookGenre() const { return bookGenre; }
+string BookNode::getBookName() const { return bookName; }
+string BookNode::getAuthorName() const { return authorName; }
+string BookNode::getBookGenre() const { return bookGenre; }
 int BookNode::getQuantity() const { return quantity; }
 int BookNode::getId() const { return id; }
 
@@ -85,11 +84,29 @@ void BookNode::decreaseQuantity() {
 }
 
 // Print book info
+#include <iomanip> // For setw
+
 void BookNode::printBookInfo() const {
-    cout << "Book Information:" << endl;
-    cout << "ID: " << id << endl;
-    cout << "Name: " << bookName << endl;
-    cout << "Author: " << authorName << endl;
-    cout << "Genre: " << bookGenre << endl;
-    cout << "Quantity: " << quantity << endl;
+    // Calculate box width based on maximum lengths of fields and add 4 for borders and spaces
+    int boxWidth = max({maxIdLength, maxNameLength, maxAuthorLength, maxGenreLength, maxQuantityLength, 16}) + 4; // 4 accounts for spaces and borders
+
+    // Print top border
+    cout << "+" << string(boxWidth, '-') << "+" << endl;
+
+    // Print title left-aligned
+    cout << "| " << left << setw(boxWidth - 2) << "Book Information" << " |" << endl;
+
+    // Print separator
+    cout << "+" << string(boxWidth, '-') << "+" << endl;
+
+    // Print fields with alignment
+    cout << "| ID:        " << left << setw(boxWidth - 13) << id << " |" << endl;
+    cout << "| Name:      " << left << setw(boxWidth - 13) << bookName << " |" << endl;
+    cout << "| Author:    " << left << setw(boxWidth - 13) << authorName << " |" << endl;
+    cout << "| Genre:     " << left << setw(boxWidth - 13) << bookGenre << " |" << endl;
+    cout << "| Quantity:  " << left << setw(boxWidth - 13) << quantity << " |" << endl;
+
+    // Print bottom border
+    cout << "+" << string(boxWidth, '-') << "+" << endl;
 }
+

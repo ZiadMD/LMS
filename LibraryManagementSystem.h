@@ -101,7 +101,7 @@ public:
     *
     * @param id The ID of the book to delete.
     */
-    void DeleteBook(int id);
+    void deleteBook(int id);
     /**
      * @brief Finds a book by its ID.
      *

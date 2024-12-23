@@ -40,13 +40,6 @@ public:
     int getQuantity() const;
     int getId() const;
 
-    // Formatting calculations
-    int getNamePadding() const;
-    int getAuthorPadding() const;
-    int getGenrePadding() const;
-    int getIdPadding() const;
-    int getQuantityPadding() const;
-
     // Setters
     void setBookName(const string &bookName);
     void setAuthorName(const string &authorName);
@@ -54,6 +47,13 @@ public:
     void setQuantity(int quantity);
     void increaseQuantity();
     void decreaseQuantity();
+
+    // Formatting calculations
+    int getNamePadding() const;
+    int getAuthorPadding() const;
+    int getGenrePadding() const;
+    int getIdPadding() const;
+    int getQuantityPadding() const;
 
     // Print book info
     void printBookInfo() const;
