@@ -50,7 +50,7 @@ int getValidInput(const string& prompt, int min, int max) {
         cout << prompt;
         cin >> choice;
         if (choice < min || choice > max) {
-            cout << "Invalid choice! Please try again.\n";
+            cout << "Invalid Input! Please try again.\n";
         }
     } while (choice < min || choice > max);
     return choice;
@@ -61,24 +61,11 @@ void handelAdding(LibraryManagementSystem& library){
     system("cls");
     cout << "Book Created!\n";
     int addType = getValidInput("Enter Adding type (1. Push Back, 2. Push Front, 3. Insert): ", 1, 3);
-    switch (addType) {
-        case 1: {
-            library.push_back(NewBook);
-            break;
-        }
-        case 2: {
-            library.push_front(NewBook);
-            break;
-        }
-        case 3:{
-            int index = getValidInput("Enter Index: ", 0, INT_MAX);
-            library.insert(NewBook, index);
-            break;
-        }
-        default:
-            cout << "\tInvalid choice!\n";
-            break;
-    }
+
+    if (addType == 1) library.push_back(NewBook);
+    else if (addType == 2) library.push_front(NewBook);
+    else if (addType == 3) library.insert(NewBook, getValidInput("Enter Index: ", 0, INT_MAX));
+
 }
 
 void handelSearching(LibraryManagementSystem& library){
