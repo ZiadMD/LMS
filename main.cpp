@@ -101,24 +101,33 @@ void handelDeleting(LibraryManagementSystem& library) {
     library.remove(id);
 }
 
+void displayMenu() {
+    cout << string(40, '-') << endl;
+    cout << "       LIBRARY MANAGEMENT SYSTEM" << endl;
+    cout << string(40, '-') << endl;
+    cout << endl;
+    cout << "[1] Display Library" << endl;
+    cout << "[2] Add a New Book" << endl;
+    cout << "[3] Search for a Book" << endl;
+    cout << "[4] Sort Library" << endl;
+    cout << "[5] Delete a Book" << endl;
+    cout << "[6] Clear Library" << endl;
+    cout << "[7] Exit System" << endl;
+    cout << endl;
+    cout << string(40, '-') << endl;
+    cout << "Please select an option (1-7): ";
+}
+
 
 int main() {
     LibraryManagementSystem library;
 
     init_load(library);
 
-    cout << "Welcome to the Library Management System!" << endl;
+
     while (true) {
         int choice;
-        cout << "1. Display Library" << endl
-             << "2. Add Book" << endl
-             << "3. Search" << endl
-             << "4. Sort Library" << endl
-             << "5. Delete Book" << endl
-             << "6. Clear Library" << endl
-             << "7. Exit" << endl
-             << string(15, '=') << endl
-             << "Enter your choice: ";
+        displayMenu();
         cin >> choice;
         system("cls");
 
@@ -129,6 +138,7 @@ int main() {
         else if (choice == 5) handelDeleting(library);
         else if (choice == 6) library.clear();
         else if (choice == 7) break;
+        else if (choice == 99) init_load(library); //for testing
         else cout << "\tInvalid choice!\n";
     }
     return 1;
