@@ -261,4 +261,12 @@ void LibraryManagementSystem::display()
     cout << "+" << string(IDMARGIN+1, '-') << "+" << string(NAMEMARGEN+1, '-') << "+" << string(AUTHORMARGEN+1, '-') << "+" << string(GENREMARGEN+1, '-') << "+" << string(QMARGEN, '-') << "+\n";
 }
 
+void LibraryManagementSystem::clear() {
+    head.reset();
+    tail.reset();
+    length = 0;
+
+    cout << "Library cleared. All books have been removed." << std::endl;
+}
+
 

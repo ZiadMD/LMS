@@ -19,11 +19,13 @@ private:
      * Example:
      * Consider a list of books with IDs: 3 -> 1 -> 4 -> 2. Using selection sort with an ascending comparator,
      * the list will be rearranged to: 1 -> 2 -> 3 -> 4.
+     * Using selection sort with a descending comparator, the list will be rearranged to: 4 -> 3 -> 2 -> 1.
      *
      * @param comparator A function that determines the sorting order.
      *        Example: comparator = [](shared_ptr<BookNode> a, shared_ptr<BookNode> b) { return a->getId() < b->getId(); }
      */
     void selectionSort(const function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)>& comparator);
+
     /**
      * @brief Splits a doubly linked list into two halves.
      *
@@ -36,6 +38,7 @@ private:
      * @return A shared pointer to the head of the second half.
      */
      shared_ptr<BookNode> Split(shared_ptr<BookNode> head);
+
     /**
      * @brief Merges two sorted doubly linked lists into one sorted list.
      *
@@ -51,6 +54,7 @@ private:
      * @return A shared pointer to the head of the merged list.
      */
     shared_ptr<BookNode> merge(shared_ptr<BookNode> left, shared_ptr<BookNode> right, function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)> comparator);
+
     /**
      * @brief Sorts a doubly linked list using merge sort.
      *
@@ -65,6 +69,7 @@ private:
 
 public:
     LibraryManagementSystem();
+
     /**
      * @brief Adds a book to the front of the library.
      *
@@ -74,6 +79,7 @@ public:
      * @param Book The book node to add.
      */
     void push_front(shared_ptr<BookNode> Book);
+
     /**
      * @brief Adds a book to the end of the library.
      *
@@ -83,6 +89,7 @@ public:
      * @param Book The book node to add.
      */
     void push_back(shared_ptr<BookNode> Book);
+
     /**
      * @brief Inserts a book at a specified index.
      *
@@ -93,15 +100,7 @@ public:
      * @param Index The position to insert the book at.
      */
     void insert(shared_ptr<BookNode> Book, int Index);
-    /**
-    * @brief Deletes a book from the library by its ID.
-    *
-    * Example:
-    * Deleting a book with ID 3 from the list: 1 -> 3 -> 4 results in: 1 -> 4.
-    *
-    * @param id The ID of the book to delete.
-    */
-    void deleteBook(int id);
+
     /**
      * @brief Finds a book by its ID.
      *
@@ -112,6 +111,17 @@ public:
      * @return A shared pointer to the book node if found, nullptr otherwise.
      */
     shared_ptr<BookNode> searchByID(int id);
+
+    /**
+    * @brief Deletes a book from the library by its ID.
+    *
+    * Example:
+    * Deleting a book with ID 3 from the list: 1 -> 3 -> 4 results in: 1 -> 4.
+    *
+    * @param id The ID of the book to delete.
+    */
+    void deleteBook(int id);
+
     /**
      * @brief Sorts the library using the specified sorting algorithm.
      *
@@ -122,6 +132,7 @@ public:
      * @param type The sorting algorithm to use ("selection" or "merge").
      */
     void sort(function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)> comparator, string type = "selection");
+
     /**
      * @brief Displays the library in a tabular format.
      *
@@ -129,6 +140,11 @@ public:
      * For a list of books, the function outputs a table with columns for ID, Book Name, Author Name, Genre, and Quantity.
      */
     void display();
+
+    /**
+     * @brief Clears the library.
+     */
+    void clear();
 };
 
 
