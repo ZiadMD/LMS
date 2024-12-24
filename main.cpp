@@ -2,7 +2,7 @@
 #include "LibraryManagementSystem.h"
 
 
-void init_load(LibraryManagementSystem& lib) {
+void init_load(LibraryManagementSystem& library) {
     string titles[] = {
             "The Great Gatsby", "To Kill a Mockingbird", "1984", "Pride and Prejudice",
             "The Catcher in the Rye", "Moby-Dick", "The Lord of the Rings", "The Hobbit",
@@ -40,21 +40,81 @@ void init_load(LibraryManagementSystem& lib) {
     };
 
     for (int i = 0; i < 23; ++i) {
-        lib.push_back(make_shared<BookNode>(titles[i], authors[i], genres[i], 100+i, quantities[i]));
+        library.push_back(make_shared<BookNode>(titles[i], authors[i], genres[i], 100 + i, quantities[i]));
     }
 }
 
-void check_not_neg(int& number){
-    cin>>number;
+int getValidInput(const string& prompt, int min, int max) {
+    int choice;
+    do {
+        cout << prompt;
+        cin >> choice;
+        if (choice < min || choice > max) {
+            cout << "Invalid choice! Please try again.\n";
+        }
+    } while (choice < min || choice > max);
+    return choice;
+}
 
-    while (number < 0)
-    {
-        if (number < 0)
-            cout << "Number Must be Positive\n"
-                 << "Enter number again: ";
-        cin >> number;
+void handelAdding(LibraryManagementSystem& library){
+    shared_ptr<BookNode> NewBook = make_shared<BookNode>();
+    system("cls");
+    cout << "Book Created!\n";
+    int addType = getValidInput("Enter Adding type (1. Push Back, 2. Push Front, 3. Insert): ", 1, 3);
+    switch (addType) {
+        case 1: {
+            library.push_back(NewBook);
+            break;
+        }
+        case 2: {
+            library.push_front(NewBook);
+            break;
+        }
+        case 3:{
+            int index = getValidInput("Enter Index: ", 0, INT_MAX);
+            library.insert(NewBook, index);
+            break;
+        }
+        default:
+            cout << "\tInvalid choice!\n";
+            break;
     }
 }
+
+void handelSearching(LibraryManagementSystem& library){
+    int id = getValidInput("Enter book ID: ", 0, INT_MAX);
+    shared_ptr<BookNode> book = library.searchByID(id);
+
+    if (book) book->printBookInfo();
+    else cout << "Book not found." << endl;
+}
+
+void handelSorting(LibraryManagementSystem& library){
+    int type = getValidInput("Enter sorting type (1. ID, 2. Title, 3. Author, 4. Genre, 5. Quantity): ", 1, 5);
+    int order = getValidInput("Enter sorting order (1. Ascending, 2. Descending): ", 1, 2);
+    int algorithm = getValidInput("Enter sorting algorithm (1. Selection, 2. Merge): ", 1, 2);
+    bool ascending = order == 1;
+    string algorithm_name = (algorithm == 1) ? "selection" : "merge";
+
+    auto sortFunction = [&](shared_ptr<BookNode> a, shared_ptr<BookNode> b) {
+        switch (type) {
+            case 1 : return (ascending ? a->getId() > b->getId() : a->getId() < b->getId());
+            case 2 : return (ascending ? a->getBookName() > b->getBookName() : a->getBookName() < b->getBookName());
+            case 3 : return (ascending ? a->getAuthorName() > b->getAuthorName() : a->getAuthorName() < b->getAuthorName());
+            case 4 : return (ascending ? a->getBookGenre() > b->getBookGenre() : a->getBookGenre() < b->getBookGenre());
+            case 5 : return (ascending ? a->getQuantity() > b->getQuantity() : a->getQuantity() < b->getQuantity());
+            default: return false;
+        }
+    };
+
+    library.sort(sortFunction, algorithm_name);
+}
+
+void handelDeleting(LibraryManagementSystem& library) {
+    int id = getValidInput("Enter book ID: ", 0, INT_MAX);
+    library.deleteBook(id);
+}
+
 
 int main() {
     LibraryManagementSystem library;
@@ -75,113 +135,13 @@ int main() {
         cin >> choice;
         system("cls");
 
-        switch (choice) {
-            case 1: {
-                library.display();
-                break;
-            }
-            case 2: {
-                shared_ptr<BookNode> NewBook = make_shared<BookNode>();
-                system("cls");
-                cout << "Book Created!\n";
-                int n;
-                cout << "Enter Adding type (1. Push Back, 2. Push Front, 3. Insert): ";
-                cin >> n;
-                switch (n) {
-                    case 1:
-                        library.push_back(NewBook);
-                        break;
-                    case 2:
-                        library.push_front(NewBook);
-                        break;
-                    case 3:
-                        int index;
-                        cout << "Enter index: ";
-                        check_not_neg(index);
-                        library.insert(NewBook, index);
-                        break;
-                    default:
-                        cout << "\tInvalid choice!\n";
-                        break;
-                }
-                break;
-            }
-            case 3 : {
-                cout << "Enter book ID: ";
-                int id;
-                check_not_neg(id);
-                shared_ptr<BookNode> book;
-                book = library.searchByID(id);
-                if (book) {
-                    book->printBookInfo();
-                } else {
-                    cout << "Book not found." << endl;
-                }
-                break;
-            }
-            case 4: {
-                int type, order, algorithm;
-                string algorithm_name;
-                bool ascending;
-                cout << "Enter sorting type (1. ID, 2. Title, 3. Author, 4. Genre, 5. Quantity): ";
-                cin >> type;
-                while (type < 1 || type > 5) {
-                    if (type < 1 || type > 5)
-                        cout << "Invalid choice\n"
-                             << "Enter sorting type (1. ID, 2. Title, 3. Author, 4. Genre, 5. Quantity): ";
-                    cin >> type;
-                }
-
-                cout << "Enter sorting order (1. Ascending, 2. Descending): ";
-                cin >> order;
-                while (order < 1 || order > 2) {
-                    if (order < 1 || order > 2)
-                        cout << "Invalid choice\n"
-                             << "Enter sorting order (1. Ascending, 2. Descending): ";
-                    cin >> order;
-                }
-                ascending = (order == 1) ? true : false;
-
-                cout << "Enter sorting algorithm (1. Selection, 2. Merge): ";
-                cin >> algorithm;
-                while (algorithm < 1 || algorithm > 2) {
-                    if (algorithm < 1 || algorithm > 2)
-                        cout << "Invalid choice\n"
-                             << "Enter sorting algorithm (1. Selection, 2. Merge): ";
-                    cin >> algorithm;
-                }
-                algorithm_name = (algorithm == 1) ? "selection" : "merge";
-
-                auto sortFunction = [&](shared_ptr<BookNode> a, shared_ptr<BookNode> b) {
-                    switch (type) {
-                        case 1 : return (ascending ? a->getId() > b->getId() : a->getId() < b->getId());
-                        case 2 : return (ascending ? a->getBookName() > b->getBookName() : a->getBookName() < b->getBookName());
-                        case 3 : return (ascending ? a->getAuthorName() > b->getAuthorName() : a->getAuthorName() < b->getAuthorName());
-                        case 4 : return (ascending ? a->getBookGenre() > b->getBookGenre() : a->getBookGenre() < b->getBookGenre());
-                        case 5 : return (ascending ? a->getQuantity() > b->getQuantity() : a->getQuantity() < b->getQuantity());
-                        default: return false;
-                    }
-                };
-
-                library.sort(sortFunction, algorithm_name);
-                break;
-            }
-            case 5: {
-                int id;
-                cout << "Enter book ID to delete: ";
-                check_not_neg(id);
-                library.deleteBook(id);
-                break;
-            }
-            case 6: {
-                cout << "Exiting the program..." << endl;
-                return 0;
-            }
-            default: {
-                cout << "Invalid choice\n";
-                break;
-            }
-        }
+        if(choice == 1) library.display();
+        else if (choice == 2) handelAdding(library);
+        else if (choice == 3) handelSearching(library);
+        else if (choice == 4) handelSorting(library);
+        else if (choice == 5) handelDeleting(library);
+        else if (choice == 6) break;
+        else cout << "\tInvalid choice!\n";
     }
 }
 
