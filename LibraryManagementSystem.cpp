@@ -1,5 +1,21 @@
 #include "LibraryManagementSystem.h"
 
+shared_ptr<BookNode> LibraryManagementSystem::getBookAtIndex(int index) {
+    shared_ptr<BookNode> current;
+    if (index <= length / 2) {
+        current = head;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+    } else {
+        current = tail;
+        for (int i = length-1; i > index; i--) {
+            current = current->prev;
+        }
+    }
+    return current;
+}
+
 void LibraryManagementSystem::selectionSort(const function<bool(shared_ptr<BookNode>, shared_ptr<BookNode>)>& comparator){
     if (!head) return;
 
@@ -112,27 +128,29 @@ void LibraryManagementSystem::push_back(shared_ptr<BookNode> Book)
 }
 
 void LibraryManagementSystem::insert(shared_ptr<BookNode> Book, int Index) {
-    if(Index > length) {
-        cout << "Index out of range." << endl;
+    if (!head) {
+        cout << "Library is empty." << endl;
         cout << "Pushing the book to the end of the library." << endl;
         push_back(Book);
         return;
     }
-    shared_ptr<BookNode> current;
 
-    // Choosing the traversal direction based on the index
-    if (Index <= length / 2)
-    {
-        // Traverse from the head
-        current = head;
-        for (int i = 1; i < Index; ++i) current = current->next;
+    if (Index < 0 || Index >= length) {
+        cout << "Index out of range." << endl;
+        return;
     }
-    else
-    {
-        // Traverse from the tail
-        current = tail;
-        for (int i = length; i > Index; --i) current = current->prev;
+
+    if (Index == 0) {
+        push_front(Book);
+        return;
     }
+
+    if (Index == length - 1) {
+        push_back(Book);
+        return;
+    }
+
+    shared_ptr<BookNode> current = getBookAtIndex(Index);
 
     // Update pointers to insert the new node
     Book->next = current;
@@ -145,7 +163,7 @@ void LibraryManagementSystem::insert(shared_ptr<BookNode> Book, int Index) {
     length++;
 }
 
-void LibraryManagementSystem::deleteBook(int id)
+void LibraryManagementSystem::remove(int Index)
 {
     // If the library is empty, print an error message and do nothing
     if (!head)
@@ -154,22 +172,27 @@ void LibraryManagementSystem::deleteBook(int id)
         return;
     }
 
-    // Find the node in the library with the given ID
-    shared_ptr<BookNode> current = searchByID(id);
-
-    // If the book is not found, print an error message and do nothing
-    if (!current)
+    if (Index < 0 || Index >= length)
     {
-        cout << "Book not found." << endl;
+        cout << "Index out of range." << endl;
         return;
     }
 
-    // If the book to be deleted is the head of the library, update the head
-    if (current == head) head = current->next; // Set the new head to the next node
+    if (Index == 0)
+    {
+        pop_front();
+        return;
+    }
+
+    if (Index == length - 1)
+    {
+        pop_back();
+        return;
+    }
 
 
-    // If the book to be deleted is the tail of the library, update the tail
-    if (current == tail) tail = current->prev; // Set the new tail to the previous node
+    shared_ptr<BookNode> current = getBookAtIndex(Index);
+
 
     // If the book to be deleted is not the head or tail of the library, update the next and previous pointers of the adjacent nodes
     if (current->prev) current->prev->next = current->next; // Set the previous node's next pointer to the next node
@@ -177,6 +200,36 @@ void LibraryManagementSystem::deleteBook(int id)
     if (current->next) current->next->prev = current->prev; // Set the next node's previous pointer to the previous node
 
     // Decrement the length of the library
+    length--;
+}
+
+void LibraryManagementSystem::pop_back() {
+    if (!head)
+    {
+        cout << "Library is empty." << endl;
+        return;
+    }
+    if (head == tail) head = tail = nullptr;
+    else
+    {
+        tail = tail->prev;
+        tail->next = nullptr;
+    }
+    length--;
+}
+
+void LibraryManagementSystem::pop_front() {
+    if (!head)
+    {
+        cout << "Library is empty." << endl;
+        return;
+    }
+    if (head == tail) head = tail = nullptr;
+    else
+    {
+        head = head->next;
+        head->prev = nullptr;
+    }
     length--;
 }
 
@@ -262,11 +315,23 @@ void LibraryManagementSystem::display()
 }
 
 void LibraryManagementSystem::clear() {
-    head.reset();
+    while (head) {
+        auto temp = head;
+        head = head->next;
+        temp->next.reset();
+        if (auto prev = temp->prev) {
+            prev.reset();
+        }
+        temp.reset();
+    }
     tail.reset();
-    length = 0;
 
-    cout << "Library cleared. All books have been removed." << std::endl;
+    length = 0;
+    cout << "Library cleared." << endl;
+}
+
+LibraryManagementSystem::~LibraryManagementSystem() {
+    clear();
 }
 
 

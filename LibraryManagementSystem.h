@@ -13,6 +13,8 @@ private:
     shared_ptr<BookNode> head, tail;
     int length;
 
+    shared_ptr<BookNode> getBookAtIndex(int index);
+
     /**
      * @brief Sorts the linked list of books in either ascending or descending order using selection sort.
      *
@@ -69,6 +71,7 @@ private:
 
 public:
     LibraryManagementSystem();
+    ~LibraryManagementSystem();
 
     /**
      * @brief Adds a book to the front of the library.
@@ -113,14 +116,28 @@ public:
     shared_ptr<BookNode> searchByID(int id);
 
     /**
-    * @brief Deletes a book from the library by its ID.
-    *
-    * Example:
-    * Deleting a book with ID 3 from the list: 1 -> 3 -> 4 results in: 1 -> 4.
-    *
-    * @param id The ID of the book to delete.
-    */
-    void deleteBook(int id);
+     * @brief Deletes a book at a specified index.
+     *
+     * Example:
+     * Deleting a book at index 1 in the list: 1 -> 2 -> 3 results in: 1 -> 3.
+     */
+    void remove(int index);
+
+    /**
+     * @brief Deletes a book from the back of the library.
+     *
+     * Example:
+     * Popping a book from the front of the list: 1 -> 2 -> 3 results in: 1 -> 2.
+     */
+    void pop_back();
+
+    /**
+     * @brief Deletes a book from the front of the library.
+     *
+     * Example:
+     * Popping a book from the front of the list: 1 -> 2 -> 3 results in: 2 -> 3.
+     */
+    void pop_front();
 
     /**
      * @brief Sorts the library using the specified sorting algorithm.
@@ -141,9 +158,7 @@ public:
      */
     void display();
 
-    /**
-     * @brief Clears the library.
-     */
+
     void clear();
 };
 

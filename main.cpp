@@ -80,16 +80,15 @@ void handelSorting(LibraryManagementSystem& library){
     int type = getValidInput("Enter sorting type (1. ID, 2. Title, 3. Author, 4. Genre, 5. Quantity): ", 1, 5);
     int order = getValidInput("Enter sorting order (1. Ascending, 2. Descending): ", 1, 2);
     int algorithm = getValidInput("Enter sorting algorithm (1. Selection, 2. Merge): ", 1, 2);
-    bool ascending = order == 1;
     string algorithm_name = (algorithm == 1) ? "selection" : "merge";
 
     auto sortFunction = [&](shared_ptr<BookNode> a, shared_ptr<BookNode> b) {
         switch (type) {
-            case 1 : return (ascending ? a->getId() > b->getId() : a->getId() < b->getId());
-            case 2 : return (ascending ? a->getBookName() > b->getBookName() : a->getBookName() < b->getBookName());
-            case 3 : return (ascending ? a->getAuthorName() > b->getAuthorName() : a->getAuthorName() < b->getAuthorName());
-            case 4 : return (ascending ? a->getBookGenre() > b->getBookGenre() : a->getBookGenre() < b->getBookGenre());
-            case 5 : return (ascending ? a->getQuantity() > b->getQuantity() : a->getQuantity() < b->getQuantity());
+            case 1 : return ((order == 1) ? a->getId() > b->getId() : a->getId() < b->getId());
+            case 2 : return ((order == 1) ? a->getBookName() > b->getBookName() : a->getBookName() < b->getBookName());
+            case 3 : return ((order == 1) ? a->getAuthorName() > b->getAuthorName() : a->getAuthorName() < b->getAuthorName());
+            case 4 : return ((order == 1) ? a->getBookGenre() > b->getBookGenre() : a->getBookGenre() < b->getBookGenre());
+            case 5 : return ((order == 1) ? a->getQuantity() > b->getQuantity() : a->getQuantity() < b->getQuantity());
             default: return false;
         }
     };
@@ -98,8 +97,8 @@ void handelSorting(LibraryManagementSystem& library){
 }
 
 void handelDeleting(LibraryManagementSystem& library) {
-    int id = getValidInput("Enter book ID: ", 0, INT_MAX);
-    library.deleteBook(id);
+    int id = getValidInput("Enter book Index: ", 0, INT_MAX);
+    library.remove(id);
 }
 
 
@@ -116,7 +115,8 @@ int main() {
              << "3. Search" << endl
              << "4. Sort Library" << endl
              << "5. Delete Book" << endl
-             << "6. Exit" << endl
+             << "6. Clear Library" << endl
+             << "7. Exit" << endl
              << string(15, '=') << endl
              << "Enter your choice: ";
         cin >> choice;
@@ -127,8 +127,10 @@ int main() {
         else if (choice == 3) handelSearching(library);
         else if (choice == 4) handelSorting(library);
         else if (choice == 5) handelDeleting(library);
-        else if (choice == 6) break;
+        else if (choice == 6) library.clear();
+        else if (choice == 7) break;
         else cout << "\tInvalid choice!\n";
     }
+    return 1;
 }
 
