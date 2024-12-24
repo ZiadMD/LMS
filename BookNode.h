@@ -5,6 +5,7 @@
 #include <string>
 #include <limits>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ private:
 
     // Simplified length calculation
     int calculateLength(const string &field) const;
-    int calculateLength(int field) const;
+    int calculateLength(const int &field) const;
 
 public:
 
@@ -42,10 +43,10 @@ public:
     int getId() const;
 
     // Setters
-    void setBookName(const string &bookName);
-    void setAuthorName(const string &authorName);
-    void setBookGenre(const string &genre);
-    void setQuantity(int quantity);
+    void setBookName(const string &Name);
+    void setAuthorName(const string &Author);
+    void setBookGenre(const string &Genre);
+    void setQuantity(int Quantity);
     void increaseQuantity();
     void decreaseQuantity();
 

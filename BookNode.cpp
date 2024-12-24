@@ -61,15 +61,15 @@ int BookNode::getIdPadding() const { return maxIdLength; }
 int BookNode::getQuantityPadding() const { return maxQuantityLength; }
 
 // Setters
-void BookNode::setBookName(const string &bookName) { this->bookName = bookName; }
-void BookNode::setAuthorName(const string &authorName) { this->authorName = authorName; }
-void BookNode::setBookGenre(const string &genre) { this->bookGenre = genre; }
+void BookNode::setBookName(const string &Name) { bookName = Name; }
+void BookNode::setAuthorName(const string &Author) { authorName = Author; }
+void BookNode::setBookGenre(const string &Genre) { bookGenre = Genre; }
 
-void BookNode::setQuantity(int quantity) {
-    if (quantity >= 0) {
-        this->quantity = quantity;
+void BookNode::setQuantity(int Quantity) {
+    if (Quantity >= 0) {
+        quantity = Quantity;
     } else {
-        cout << "Invalid quantity: must be non-negative." << endl;
+        cout << "Invalid Quantity: must be non-negative." << endl;
     }
 }
 
@@ -83,30 +83,17 @@ void BookNode::decreaseQuantity() {
     }
 }
 
-// Print book info
-#include <iomanip> // For setw
-
 void BookNode::printBookInfo() const {
-    // Calculate box width based on maximum lengths of fields and add 4 for borders and spaces
     int boxWidth = max({maxIdLength, maxNameLength, maxAuthorLength, maxGenreLength, maxQuantityLength, 16}) + 4; // 4 accounts for spaces and borders
 
-    // Print top border
     cout << "+" << string(boxWidth, '-') << "+" << endl;
-
-    // Print title left-aligned
     cout << "| " << left << setw(boxWidth - 2) << "Book Information" << " |" << endl;
-
-    // Print separator
     cout << "+" << string(boxWidth, '-') << "+" << endl;
-
-    // Print fields with alignment
     cout << "| ID:        " << left << setw(boxWidth - 13) << id << " |" << endl;
     cout << "| Name:      " << left << setw(boxWidth - 13) << bookName << " |" << endl;
     cout << "| Author:    " << left << setw(boxWidth - 13) << authorName << " |" << endl;
     cout << "| Genre:     " << left << setw(boxWidth - 13) << bookGenre << " |" << endl;
     cout << "| Quantity:  " << left << setw(boxWidth - 13) << quantity << " |" << endl;
-
-    // Print bottom border
     cout << "+" << string(boxWidth, '-') << "+" << endl;
 
 }
