@@ -26,6 +26,7 @@ private:
     int calculateLength(int field) const;
 
 public:
+
     // Pointers for doubly linked list
     shared_ptr<BookNode> next, prev;
 

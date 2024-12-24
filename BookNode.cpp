@@ -108,5 +108,6 @@ void BookNode::printBookInfo() const {
 
     // Print bottom border
     cout << "+" << string(boxWidth, '-') << "+" << endl;
+
 }
 
