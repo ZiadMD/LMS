@@ -24,7 +24,7 @@ private:
 
     // Simplified length calculation
     int calculateLength(const string &field) const;
-    int calculateLength(const int &field) const;
+    int calculateLength(int field) const;
 
 public:
 
