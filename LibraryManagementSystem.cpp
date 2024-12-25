@@ -171,7 +171,7 @@ void LibraryManagementSystem::remove(int Index)
         cout << "Library is empty." << endl;
         return;
     }
-
+    //check the validity of the index
     if (Index < 0 || Index >= length)
     {
         cout << "Index out of range." << endl;
@@ -195,9 +195,9 @@ void LibraryManagementSystem::remove(int Index)
 
 
     // If the book to be deleted is not the head or tail of the library, update the next and previous pointers of the adjacent nodes
-    if (current->prev) current->prev->next = current->next; // Set the previous node's next pointer to the next node
+    current->prev->next = current->next; // Set the previous node's next pointer to the next node
 
-    if (current->next) current->next->prev = current->prev; // Set the next node's previous pointer to the previous node
+    current->next->prev = current->prev; // Set the next node's previous pointer to the previous node
 
     // Decrement the length of the library
     length--;
