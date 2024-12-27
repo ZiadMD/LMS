@@ -2,6 +2,7 @@
 
 shared_ptr<BookNode> LibraryManagementSystem::getBookAtIndex(int index) {
     shared_ptr<BookNode> current;
+
     if (index <= length / 2) {
         current = head;
         for (int i = 0; i < index; i++) {
@@ -104,7 +105,6 @@ void LibraryManagementSystem::push_front(shared_ptr<BookNode> Book)
     }
     else
     {
-
         Book->next = head;
         head->prev = Book;
         head = Book;
@@ -156,7 +156,7 @@ void LibraryManagementSystem::insert(shared_ptr<BookNode> Book, int Index) {
     Book->next = current;
     Book->prev = current->prev;
 
-    if (current->prev) current->prev->next = Book;
+    current->prev->next = Book;
     current->prev = Book;
 
     // Increment the length of the library
@@ -235,7 +235,7 @@ void LibraryManagementSystem::pop_front() {
 
 shared_ptr<BookNode> LibraryManagementSystem::searchByID(int id)
 {
-    if (!head || !tail)
+    if (!head)
     {
         cout << "Library is empty." << endl;
         return nullptr;
@@ -243,15 +243,10 @@ shared_ptr<BookNode> LibraryManagementSystem::searchByID(int id)
 
     shared_ptr<BookNode> left = head, right = tail;
 
-    while (left && right && left != right->next)// Stop when pointers cross or meet
+    while (left && right && (left != right->next))
     {
-        // Check if the book with the given ID was found by the forward traversal
-        if (left->getId() == id) return left; // Found by forward traversal
-
-        // Check if the book with the given ID was found by the backward traversal
-        if (right->getId() == id) return right; // Found by backward traversal
-
-        // Move the pointers
+        if (left->getId() == id) return left;
+        if (right->getId() == id) return right;
         left = left->next;
         right = right->prev;
     }
@@ -280,53 +275,46 @@ void LibraryManagementSystem::display()
         return;
     }
 
-    int IDMARGIN = head->getIdPadding(),
-        NAMEMARGEN = head->getNamePadding(),
+    int IDPADDING = head->getIdPadding(),
+        NAMEPADDING = head->getNamePadding(),
         AUTHORMARGEN = head->getAuthorPadding(),
         GENREMARGEN = head->getGenrePadding(),
         QMARGEN = max(head->getQuantityPadding(), 8)+1;
 
 
-    cout << "+" << string(IDMARGIN+1, '-') << "+"
-                << string(NAMEMARGEN+1, '-') << "+"
+    cout << "+" << string(IDPADDING + 1, '-') << "+"
+                << string(NAMEPADDING+1, '-') << "+"
                 << string(AUTHORMARGEN+1, '-') << "+"
                 << string(GENREMARGEN+1, '-') << "+"
                 << string(QMARGEN, '-') << "+\n";
     // Print table header
-    cout << left << "|" << setw(IDMARGIN) << "ID"
-         << " |" << setw(NAMEMARGEN) << "Book Name"
+    cout << left << "|" << setw(IDPADDING) << "ID"
+         << " |" << setw(NAMEPADDING) << "Book Name"
          << " |" << setw(AUTHORMARGEN) << "Author Name"
          << " |" << setw(GENREMARGEN) << "Genre"
          << " |" << setw(QMARGEN) << "Quantity" << "|\n";
-    cout << "+" << string(IDMARGIN+1, '-') << "+" << string(NAMEMARGEN+1, '-') << "+" << string(AUTHORMARGEN+1, '-') << "+" << string(GENREMARGEN+1, '-') << "+" << string(QMARGEN, '-') << "+\n";
+    cout << "+" << string(IDPADDING + 1, '-') << "+" << string(NAMEPADDING + 1, '-') << "+" << string(AUTHORMARGEN + 1, '-') << "+" << string(GENREMARGEN + 1, '-') << "+" << string(QMARGEN, '-') << "+\n";
 
     // Traverse the list and print book details
     auto temp = head;
     while (temp)
     {
-        cout << left << "|" << setw(IDMARGIN) << temp->getId()
-             << " |" << setw(NAMEMARGEN) << temp->getBookName()
+        cout << left << "|" << setw(IDPADDING) << temp->getId()
+             << " |" << setw(NAMEPADDING) << temp->getBookName()
              << " |" << setw(AUTHORMARGEN) << temp->getAuthorName()
              << " |" << setw(GENREMARGEN) << temp->getBookGenre()
              << " |" << setw(QMARGEN) << temp->getQuantity() << "|\n";
         temp = temp->next;
     }
-    cout << "+" << string(IDMARGIN+1, '-') << "+" << string(NAMEMARGEN+1, '-') << "+" << string(AUTHORMARGEN+1, '-') << "+" << string(GENREMARGEN+1, '-') << "+" << string(QMARGEN, '-') << "+\n";
+    cout << "+" << string(IDPADDING + 1, '-') << "+" << string(NAMEPADDING + 1, '-') << "+" << string(AUTHORMARGEN + 1, '-') << "+" << string(GENREMARGEN + 1, '-') << "+" << string(QMARGEN, '-') << "+\n";
 }
 
 void LibraryManagementSystem::clear() {
     while (head) {
-        auto temp = head;
-        head = head->next;
-        temp->next.reset();
-        if (auto prev = temp->prev) {
-            prev.reset();
-        }
-        temp.reset();
+        pop_front(); // Remove the front element until the list is empty
     }
-    tail.reset();
-
-    length = 0;
+    tail.reset(); // Ensure the tail pointer is reset to nullptr
+    length = 0; // Reset the length counter
     cout << "Library cleared." << endl;
 }
 

@@ -86,15 +86,15 @@ void BookNode::decreaseQuantity() {
 void BookNode::printBookInfo() const {
     int boxWidth = max({maxIdLength, maxNameLength, maxAuthorLength, maxGenreLength, maxQuantityLength, 16}) + 4; // 4 accounts for spaces and borders
 
-    cout << "+" << string(boxWidth, '-') << "+" << endl;
-    cout << "| " << left << setw(boxWidth - 2) << "Book Information" << " |" << endl;
-    cout << "+" << string(boxWidth, '-') << "+" << endl;
-    cout << "| ID:        " << left << setw(boxWidth - 13) << id << " |" << endl;
-    cout << "| Name:      " << left << setw(boxWidth - 13) << bookName << " |" << endl;
-    cout << "| Author:    " << left << setw(boxWidth - 13) << authorName << " |" << endl;
-    cout << "| Genre:     " << left << setw(boxWidth - 13) << bookGenre << " |" << endl;
-    cout << "| Quantity:  " << left << setw(boxWidth - 13) << quantity << " |" << endl;
-    cout << "+" << string(boxWidth, '-') << "+" << endl;
+    cout << "+" << string(boxWidth + 13, '-') << "+" << endl;
+    cout << "| " << left <<string (15, ' ') << setw(boxWidth - 4) << "Book Information" << " |" << endl;
+    cout << "+" << string(boxWidth + 13, '-') << "+" << endl;
+    cout << "| ID       | " << left << setw(boxWidth) << id << " |" << endl;
+    cout << "| Name     | " << left << setw(boxWidth) << bookName << " |" << endl;
+    cout << "| Author   | " << left << setw(boxWidth) << authorName << " |" << endl;
+    cout << "| Genre    | " << left << setw(boxWidth) << bookGenre << " |" << endl;
+    cout << "| Quantity | " << left << setw(boxWidth) << quantity << " |" << endl;
+    cout << "+" << string(boxWidth + 13, '-') << "+" << endl;
 
 }
 
